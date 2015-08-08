@@ -11,12 +11,20 @@ abstract class Object extends Element implements ObjectInterface
     // protected $title;
     // protected $restricted = false;
 
+    /**
+     * Object constructor
+     *
+     * @param string $id
+     * @param string $title
+     * @param string $upnpClass
+     */
     public function __construct($id, $title, $upnpClass)
     {
         $this->setId($id);
         $title and $this->setTitle($title);
         $this->setClass($upnpClass);
-        parent::__construct((new \ReflectionObject($this))->getShortName());
+        parent::__construct(($this instanceof Container ? "container" : "item"));
+        //parent::__construct((new \ReflectionObject($this))->getShortName());
     }
 
     /**
@@ -50,7 +58,7 @@ abstract class Object extends Element implements ObjectInterface
      */
     public function getParentId()
     {
-        return $this->attributes["parentID"];
+        return isset($this->attributes["parentID"]) ? $this->attributes["parentID"] : null;
     }
 
     /**

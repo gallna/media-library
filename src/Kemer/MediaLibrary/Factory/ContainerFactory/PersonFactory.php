@@ -34,7 +34,7 @@ class PersonFactory
         $container = $container ?: new Container("A", "Video/Actor");
         foreach ($actors as $actor => $items) {
             $actorContainer = new Person\MovieActor(
-                sprintf("%s/actor/%s", $container->getId(), $actor ?: "UNDEFINED"),
+                sprintf("%s-actor-%s", $container->getId(), $actor ?: "UNDEFINED"),
                 $actor
             );
             array_map([$actorContainer, "add"], $items);
@@ -67,9 +67,8 @@ class PersonFactory
 
         $container = $container ?: new Container(107, "Music/Artist");
         foreach ($artists as $artist => $items) {
-            var_dump($artist);
             $artistContainer = new Person\MusicArtist(
-                sprintf("%s/artist/%s", $container->getId(), $artist),
+                sprintf("%s-artist-%s", $container->getId(), $artist),
                 $artist
             );
             array_map([$artistContainer, "add"], $items);

@@ -9,6 +9,18 @@ use Kemer\MediaLibrary\DcElement;
 class MusicTrack extends AudioItem implements MusicTrackInterface
 {
     /**
+     * MusicTrack constructor
+     *
+     * @param string $id
+     * @param string $title
+     * @param string $upnpClass
+     */
+    public function __construct($id, $title, $upnpClass = "object.item.audioItem.musicTrack")
+    {
+        parent::__construct($id, $title, $upnpClass);
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function addArtist($artist)

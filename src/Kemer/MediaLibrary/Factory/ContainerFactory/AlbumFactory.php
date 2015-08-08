@@ -26,7 +26,7 @@ class AlbumFactory
         }
         $container = $container ?: new Container(6, "Music/Album");
         foreach ($albums as $album => $items) {
-            $id = sprintf("%s/album/%s", $container->getId(), $album ?: "UNDEFINED");
+            $id = sprintf("%s-album-%s", $container->getId(), $album ?: "UNDEFINED");
             $albumContainer = new Album\MusicAlbum($id, $album);
             array_map([$albumContainer, "add"], $items);
             $container->add($albumContainer);

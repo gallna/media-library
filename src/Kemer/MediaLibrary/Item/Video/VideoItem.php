@@ -23,6 +23,18 @@ class VideoItem extends BaseItem implements VideoItemInterface
     use Traits\PersonTrait;
 
     /**
+     * VideoItem constructor
+     *
+     * @param string $id
+     * @param string $title
+     * @param string $upnpClass
+     */
+    public function __construct($id, $title, $upnpClass = "object.item.videoItem")
+    {
+        parent::__construct($id, $title, $upnpClass);
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function addActor($actor)

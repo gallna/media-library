@@ -74,8 +74,12 @@ class GetID3Builder implements MetadataBuilderInterface
     {
         $res = $item->getRes()[0];
         $res->setSize($info->getNested('filesize'));
-        $res->setDuration($info->getNested('playtime_seconds'));
         $res->setBitrate($info->getNested('bitrate'));
+        if ($seconds = $info->getNested('playtime_seconds')) {
+            $duration = (new \DateInterval(sprintf('PT%sS', round($seconds))))
+                ->format("%h:%I:S");
+            $res->setDuration($duration);
+        }
         //var_dump($info);
         if ($info->hasKey("comments")) {
             $this->addComments($item, new WrappedArray($info->get("comments")));
@@ -86,7 +90,11 @@ class GetID3Builder implements MetadataBuilderInterface
     {
         $res = $item->getRes()[0];
         $res->setSize($info->getNested('filesize'));
-        $res->setDuration($info->getNested('playtime_seconds'));
+        if ($seconds = $info->getNested('playtime_seconds')) {
+            $duration = (new \DateInterval(sprintf('PT%sS', round($seconds))))
+                ->format("%h:%I:%S");
+            $res->setDuration($duration);
+        }
         $res->setBitrate($info->getNested('bitrate'));
         if ($info->hasKey("comments")) {
             $this->addComments($item, new WrappedArray($info->get("comments")));

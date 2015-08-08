@@ -38,6 +38,7 @@ class StorageFolderFactory
             $folder,
             FilesystemIterator::SKIP_DOTS | FilesystemIterator::CURRENT_AS_SELF
         );
+        $storageFolder = $storageFolder ?: new StorageFolder($folder, basename($folder));
         return $this->scanFolder($recursiveDirectoryIterator, $storageFolder);
     }
 

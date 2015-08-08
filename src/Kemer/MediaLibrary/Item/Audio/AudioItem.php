@@ -2,16 +2,30 @@
 namespace Kemer\MediaLibrary\Item\Audio;
 
 use Kemer\MediaLibrary\DcElement;
-use Kemer\MediaLibrary\Item as BaseItem;
+use Kemer\MediaLibrary\Item;
 use Kemer\MediaLibrary\Traits;
 
-class AudioItem extends BaseItem implements AudioItemInterface
+class AudioItem extends Item implements AudioItemInterface
 {
+
     // upnp:genre  Required:No
     // upnp:longDescription  Required:No
     use Traits\GenreTrait;
     // dc:language  Required:No
     use Traits\PersonTrait;
+
+    /**
+     * AudioItem constructor
+     *
+     * @param string $id
+     * @param string $title
+     * @param string $upnpClass
+     */
+    public function __construct($id, $title, $upnpClass = "object.item.audioItem")
+    {
+        parent::__construct($id, $title, $upnpClass);
+    }
+
 
     /**
      * {@inheritDoc}

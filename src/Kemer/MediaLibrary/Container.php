@@ -14,6 +14,9 @@ class Container extends Object implements ContainerInterface, \RecursiveIterator
 
     public function add(ObjectInterface $object)
     {
+        if ($object->getParentId()) {
+            $object = clone $object;
+        }
         $object->setParentId($this->getId());
         $this->objects[] = $object;
         return $this;
@@ -26,14 +29,28 @@ class Container extends Object implements ContainerInterface, \RecursiveIterator
 
     public function asXML(SimpleXMLIterator $root = null)
     {
+
+        //$root = parent::asXml($root);
+        $root = new SimpleXMLIterator('<DIDL-Lite xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/"></DIDL-Lite>');
+        foreach ($this->objects as $object) {
+            $object->toXML($root);
+        }
+        return $root;
+    }
+
+    public function toXML(SimpleXMLIterator $root)
+    {
         $this->attributes["childCount"] = $this->count();
-        return parent::asXml($root);
+        $this->attributes['restricted'] = '1';
+        return parent::toXML($root);
+        return $container;
     }
 
     public function asXMLz(SimpleXmlElement $root = null)
     {
         if (!$root instanceof SimpleXmlElement) {
             $root = new SimpleXmlElement('<DIDL-Lite xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dlna="urn:schemas-dlna-org:metadata-1-0/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/"></DIDL-Lite>');
+            var_dump($this->elements);
             foreach ($this->elements as $element) {
                 $element->asXML($root);
             }

@@ -24,7 +24,8 @@ class GenreFactory
         }
         $container = $container ?: new Container(9, "Video/Genre");
         foreach ($genres as $genre => $items) {
-            $genreContainer = new Genre\VideoGenre("genre/$genre", $genre);
+            $id = sprintf("%s-genre-%s", $container->getId(), $genre ?: "UNDEFINED");
+            $genreContainer = new Genre\VideoGenre($id, $genre ?: "UNDEFINED", "object.container.genre.videoGenre");
             array_map([$genreContainer, "add"], $items);
             $container->add($genreContainer);
         }
@@ -46,8 +47,8 @@ class GenreFactory
         }
         $container = $container ?: new Container(5, "Music/Genre");
         foreach ($genres as $genre => $items) {
-            $id = sprintf("%s/genre/%s", $container->getId(), $genre ?: "UNDEFINED");
-            $genreContainer = new Genre\MusicGenre($id, $genre);
+            $id = sprintf("%s-genre-%s", $container->getId(), $genre ?: "UNDEFINED");
+            $genreContainer = new Genre\MusicGenre($id, $genre ?: "UNDEFINED", "object.container.genre.musicGenre");
             array_map([$genreContainer, "add"], $items);
             $container->add($genreContainer);
         }
