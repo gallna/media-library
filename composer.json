@@ -1,4 +1,5 @@
 {
+    "name": "gallna/MediaLibrary",
     "require": {
         "php": ">=5.4",
         "james-heinrich/getid3": "1.9.9",
@@ -7,9 +8,15 @@
     "require-dev": {
         "phpunit/phpunit": "4.5.*"
     },
+    "authors": [
+        {
+            "name": "Tomasz Jonik",
+            "email": "tom.jonik@hotmail.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
-            "Kemer\\": "src/Kemer/"
+            "Kemer\\MediaLibrary\\": "src/Kemer/MediaLibrary"
         }
     }
 }
