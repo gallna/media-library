@@ -20,13 +20,13 @@ class Res extends Element
      */
     public function setRes($res)
     {
-        $this->res = $res;
+        $this->setValue($res);
         return $this;
     }
 
     public function getRes()
     {
-        return $this->res;
+        return $this->getValue();
     }
 
     /**
