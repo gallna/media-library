@@ -49,7 +49,7 @@ abstract class Object extends Element implements ObjectInterface
      */
     public function setParentId($parentId)
     {
-        $this->attributes["parentID"] = $parentId;
+        $this->attributes["parentId"] = $parentId;
         return $this;
     }
 
@@ -58,7 +58,7 @@ abstract class Object extends Element implements ObjectInterface
      */
     public function getParentId()
     {
-        return isset($this->attributes["parentID"]) ? $this->attributes["parentID"] : null;
+        return isset($this->attributes["parentId"]) ? $this->attributes["parentId"] : null;
     }
 
     /**

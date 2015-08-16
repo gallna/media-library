@@ -104,6 +104,35 @@ class Element implements \ArrayAccess
         return $container;
     }
 
+    public function toArray($first = true)
+    {
+        switch (true) {
+            case $this instanceof UpnpElement:
+                $class = "upnp";
+                break;
+            case $this instanceof DcElement:
+                $class = "dc";
+                break;
+            default:
+                $class = null;
+        }
+        $parameters = $this->attributes;
+        $parameters["type"] = $this->getName();
+        $parameters["value"] = $this->getValue();
+        $parameters["class"] = $class;
+        foreach ($this->elements as $elements) {
+            if (is_array($elements)) {
+                foreach($elements as $element) {
+                    $parameters[$element->getName()][] = $element->getValue();
+                }
+            } else {
+                $parameters[$elements->getName()] = $elements->getValue();
+            }
+        }
+        return $first ? [$parameters] : $parameters;
+        return [$this->getName() => $parameters];
+    }
+
     /**
      * {@inheritDoc}
      */

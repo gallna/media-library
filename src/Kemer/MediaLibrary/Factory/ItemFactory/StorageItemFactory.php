@@ -64,9 +64,12 @@ class StorageItemFactory implements StorageItemFactoryInterface
             ->setContentFormat($mimeType)
             ->setAdditionalInfo("*");
 
-        ///home/tomasz/www
-        ;
-        $res = (new Res("http://media/".$fileinfo->getFilename()))
+        // 'http://10.0.10.107:81/app.server/stream.php'
+        $res = (new Res($fileinfo->getRealPath()))
+            ->setProtocolInfo($protocolInfo);
+        $item->addRes($res);
+
+        $res = (new Res('http://10.0.10.107:9000'.$fileinfo->getRealPath()))
             ->setProtocolInfo($protocolInfo);
         $item->addRes($res);
         return $item;

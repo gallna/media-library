@@ -46,6 +46,18 @@ class Container extends Object implements ContainerInterface, \RecursiveIterator
         return $container;
     }
 
+    public function toArray($first = true)
+    {
+        if (!$first) {
+            return parent::toArray($first);
+        }
+        $objects = [];
+        foreach ($this->objects as $object) {
+            $objects[] = $object->toArray(false);
+        }
+        return $objects;
+    }
+
     public function asXMLz(SimpleXmlElement $root = null)
     {
         if (!$root instanceof SimpleXmlElement) {
