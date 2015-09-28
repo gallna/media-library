@@ -5,7 +5,7 @@ use Kemer\MediaLibrary\DcElement;
 
 trait PersonTrait
 {
-        /**
+    /**
      * A language
      * (dc:language)
      *
@@ -21,7 +21,7 @@ trait PersonTrait
      */
     public function setLanguage($language)
     {
-        $this->language = new DcElement("language", $language);
+        $this->language = $language;
         return $this;
     }
 

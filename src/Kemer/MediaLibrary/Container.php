@@ -12,6 +12,28 @@ class Container extends Object implements ContainerInterface, \RecursiveIterator
         parent::__construct($id, $title, $upnpClass);
     }
 
+    /**
+     * A combined method to set Containers and Items
+     *
+     * @param Traversable $objects
+     * @return $this
+     */
+    public function set($objects)
+    {
+        if (is_array($objects) || $objects instanceof \Traversable) {
+
+            array_map([$this, "add"], is_array($objects) ? $objects : iterator_to_array($objects));
+        } else {
+            throw new Exception\InvalidArgumentException(
+                sprintf(
+                    "Only array or instance of Traversable can be accepted, '%s' provided",
+                    get_type($objects)
+                )
+            );
+        }
+        return $this;
+    }
+
     public function add(ObjectInterface $object)
     {
         if ($object->getParentId()) {
@@ -46,16 +68,34 @@ class Container extends Object implements ContainerInterface, \RecursiveIterator
         return $container;
     }
 
-    public function toArray($first = true)
+    public function toArray($first = null)
     {
-        if (!$first) {
-            return parent::toArray($first);
+        $container = parent::toArray($first);
+        if ($first === null) {
+            $container["objects"] = [];
+            foreach ($this->objects as $object) {
+                $container["objects"][] = $object->toArray(false);
+            }
         }
+        return $container;
+    }
+
+    /**
+     * Create Object from an array
+     *
+     * @param array $data
+     * @return object
+     */
+    public static function fromArray(array $data, $self = null)
+    {
         $objects = [];
-        foreach ($this->objects as $object) {
-            $objects[] = $object->toArray(false);
+        if (isset($data["objects"])) {
+            $objects = $data["objects"];
+            unset($data["objects"]);
         }
-        return $objects;
+        $self = parent::fromArray($data);
+        $self->objects = $objects;
+        return $self;
     }
 
     public function asXMLz(SimpleXmlElement $root = null)

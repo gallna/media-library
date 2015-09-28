@@ -1,12 +1,9 @@
 {
-    "name": "gallna/MediaLibrary",
+    "name": "gallna/media-library",
     "require": {
         "php": ">=5.4",
         "james-heinrich/getid3": "1.9.9",
         "axelarge/array-tools": "dev-master"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "4.5.*"
     },
     "authors": [
         {

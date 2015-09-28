@@ -39,7 +39,7 @@ class VideoItem extends BaseItem implements VideoItemInterface
      */
     public function addActor($actor)
     {
-        $this->elements["actor"][] = new UpnpElement('actor', $actor);
+        $this->elements["actor"][] = $actor;
         return $this;
     }
 
@@ -56,7 +56,7 @@ class VideoItem extends BaseItem implements VideoItemInterface
      */
     public function setGenre($genre)
     {
-        $this->genre = new DcElement('genre', $genre);
+        $this->genre = $genre;
         return $this;
     }
 

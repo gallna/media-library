@@ -9,7 +9,7 @@ trait GenreTrait
      *
      * @var string
      */
-    private $description;
+    //private $description;
 
     /**
      * A genre long description
@@ -17,7 +17,7 @@ trait GenreTrait
      *
      * @var string
      */
-    private $longDescription;
+    //private $longDescription;
 
     /**
      * Set a genre long description

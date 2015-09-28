@@ -2,66 +2,12 @@
 namespace Kemer\MediaLibrary;
 
 use SimpleXMLIterator;
+use Kemer\MediaLibrary\Item\Res;
 
 class Element implements \ArrayAccess
 {
-    private $__private = [];
-    private $value;
     protected $attributes = [];
     protected $elements = [];
-
-    public function __construct($name, $value = null)
-    {
-        $this->setName($name);
-        $this->setValue($value);
-    }
-
-    /**
-     * Set element name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->__private["name"] = $name;
-        return $this;
-    }
-
-    /**
-     * Get element name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->__private["name"];
-    }
-
-    /**
-     * Set element value
-     *
-     * @param string $value
-     */
-    public function setValue($value)
-    {
-        $this->__private["value"] = $value;
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->getValue();
-    }
-
-    /**
-     * Get element value
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->__private["value"];
-    }
 
     public function asXML(SimpleXMLIterator $root = null)
     {
@@ -86,7 +32,7 @@ class Element implements \ArrayAccess
             default:
                 $class = null;
         }
-        $container = $root->addChild($this->getName(), $this->getValue(), $class);
+        $container = $root->addChild($this->getName(), htmlentities($this->getValue()), $class);
 
         foreach ($this->attributes as $name => $attribute) {
             $container->addAttribute($name, $attribute);
@@ -104,33 +50,60 @@ class Element implements \ArrayAccess
         return $container;
     }
 
-    public function toArray($first = true)
+    public function getName()
     {
-        switch (true) {
-            case $this instanceof UpnpElement:
-                $class = "upnp";
-                break;
-            case $this instanceof DcElement:
-                $class = "dc";
-                break;
-            default:
-                $class = null;
+        if ($this instanceof Container) {
+            return "container";
         }
-        $parameters = $this->attributes;
+        if ($this instanceof Item) {
+            return "item";
+        }
+        return strtolower((new \ReflectionObject($this))->getShortName());
+    }
+
+    public function toArray()
+    {
+        $parameters["className"] = get_class($this);
         $parameters["type"] = $this->getName();
-        $parameters["value"] = $this->getValue();
-        $parameters["class"] = $class;
-        foreach ($this->elements as $elements) {
-            if (is_array($elements)) {
-                foreach($elements as $element) {
-                    $parameters[$element->getName()][] = $element->getValue();
-                }
+        $this->parseArray($this->attributes, $parameters);
+        $this->parseArray($this->elements, $parameters);
+        return $parameters;
+    }
+
+    protected function parseArray($elements, &$parameters = [])
+    {
+        foreach ($elements as $name => $element) {
+            if ($element instanceof Element) {
+                $parameters[$name] = $element->toArray();
+            } elseif (is_array($element)) {
+                $parameters[$name] = $this->parseArray($element);
             } else {
-                $parameters[$elements->getName()] = $elements->getValue();
+                $parameters[$name] = $element;
             }
         }
-        return $first ? [$parameters] : $parameters;
-        return [$this->getName() => $parameters];
+        return $parameters;
+    }
+
+    /**
+     * Create Object from an array
+     *
+     * @param array $data
+     * @return object
+     */
+    public static function fromArray(array $data, $self = null)
+    {
+        if (!$self && !isset($data["id"])) {
+            throw new \Exception("Required parameter 'id' is not set");
+        }
+        $self = $self ?: new static($data["id"], $data["title"], $data["class"]);
+        foreach ($data as $name => $parameter) {
+            if (method_exists($self, $setter = "set".ucfirst($name))) {
+                $self->{$setter}($parameter);
+            } else {
+                $self->elements[$name] = $parameter;
+            }
+        }
+        return $self;
     }
 
     /**
@@ -182,16 +155,6 @@ class Element implements \ArrayAccess
      */
     public function __set($name, $element)
     {
-        if (!($element instanceof Element)) {
-            throw new \OutOfBoundsException(
-                sprintf(
-                    "Only instance of '%s' class accepted '%s' added as %s",
-                    'Element',
-                    gettype($element),
-                    $name
-                )
-            );
-        }
         $this->elements[$name] = $element;
         return $this;
     }

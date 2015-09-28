@@ -23,7 +23,8 @@ abstract class Object extends Element implements ObjectInterface
         $this->setId($id);
         $title and $this->setTitle($title);
         $this->setClass($upnpClass);
-        parent::__construct(($this instanceof Container ? "container" : "item"));
+
+        //parent::__construct(($this instanceof Container ? "container" : "item"));
         //parent::__construct((new \ReflectionObject($this))->getShortName());
     }
 
@@ -63,10 +64,11 @@ abstract class Object extends Element implements ObjectInterface
 
     /**
      * {@inheritDoc}
+     * Upnp
      */
     public function setClass($class)
     {
-        $this->class = new UpnpElement("class", $class);
+        $this->class = $class;
         return $this;
     }
 
@@ -80,10 +82,11 @@ abstract class Object extends Element implements ObjectInterface
 
     /**
      * {@inheritDoc}
+     * Dc
      */
     public function setTitle($title)
     {
-        $this->title = new DcElement("title", $title);
+        $this->title = $title;
         return $this;
     }
 
@@ -100,7 +103,7 @@ abstract class Object extends Element implements ObjectInterface
      */
     public function setRestricted($restricted)
     {
-        $this->attributes["restricted"] = $restricted;
+        $this->offsetSet("restricted", $restricted);
         return $this;
     }
 
@@ -109,6 +112,6 @@ abstract class Object extends Element implements ObjectInterface
      */
     public function getRestricted()
     {
-        return $this->attributes["restricted"];
+        $this->offsetGet("restricted");
     }
 }

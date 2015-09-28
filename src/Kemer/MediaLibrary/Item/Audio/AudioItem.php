@@ -32,7 +32,7 @@ class AudioItem extends Item implements AudioItemInterface
      */
     public function setGenre($genre)
     {
-        $this->genre = new DcElement('genre', $genre);
+        $this->genre = $genre;
         return $this;
     }
 

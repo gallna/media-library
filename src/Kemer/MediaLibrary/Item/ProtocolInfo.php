@@ -1,12 +1,14 @@
 <?php
 namespace Kemer\MediaLibrary\Item;
 
-class ProtocolInfo implements ProtocolInfoInterface
+use Kemer\MediaLibrary\Element;
+
+class ProtocolInfo extends Element implements ProtocolInfoInterface
 {
-    private $protocol;
-    private $network;
-    private $contentFormat;
-    private $additionalInfo;
+    // private $protocol;
+    // private $network;
+    // private $contentFormat;
+    // private $additionalInfo;
 
     public function __construct($protocolInfo = null)
     {
@@ -81,5 +83,16 @@ class ProtocolInfo implements ProtocolInfoInterface
     public function getAdditionalInfo()
     {
         return $this->additionalInfo;
+    }
+
+    /**
+     * Create Object from an array
+     *
+     * @param array $data
+     * @return object
+     */
+    public static function fromArray(array $data, $self = null)
+    {
+        return parent::fromArray($data, new static());
     }
 }

@@ -5,12 +5,12 @@ use Kemer\MediaLibrary\Element;
 
 class Res extends Element
 {
-    private $bitrate;
-    private $importUri;
+    // private $bitrate;
+    // private $importUri;
 
     public function __construct($res)
     {
-        parent::__construct("res", $res);
+        $this->setRes($res);
     }
 
     /**
@@ -20,13 +20,13 @@ class Res extends Element
      */
     public function setRes($res)
     {
-        $this->setValue($res);
+        $this->res = $res;
         return $this;
     }
 
     public function getRes()
     {
-        return $this->getValue();
+        return $this->res;
     }
 
     /**
@@ -36,13 +36,13 @@ class Res extends Element
      */
     public function setSize($size)
     {
-        $this->attributes["size"] = $size;
+        $this["size"] = $size;
         return $this;
     }
 
     public function getSize()
     {
-        return $this->attributes["size"];
+        return $this["size"];
     }
 
     /**
@@ -52,13 +52,13 @@ class Res extends Element
      */
     public function setDuration($duration)
     {
-        $this->attributes["duration"] = $duration;
+        $this["duration"] = $duration;
         return $this;
     }
 
     public function getDuration()
     {
-        return $this->attributes["duration"];
+        return $this["duration"];
     }
 
     /**
@@ -87,13 +87,13 @@ class Res extends Element
      */
     public function setProtocolInfo(ProtocolInfo $protocolInfo)
     {
-        $this->attributes["protocolInfo"] = $protocolInfo;
+        $this->offsetSet("protocolInfo", $protocolInfo);
         return $this;
     }
 
     public function getProtocolInfo()
     {
-        return $this->attributes["protocolInfo"];
+        return $this->offsetGet("protocolInfo");
     }
 
     public function setImportUri($importUri)
@@ -113,5 +113,16 @@ class Res extends Element
         $res->addAttribute('protocolInfo', (string)$this->getProtocolInfo());
         $res->addAttribute('size', $this->getSize());
         $res->addAttribute('duration', $this->getDuration());
+    }
+
+    /**
+     * Create Object from an array
+     *
+     * @param array $data
+     * @return object
+     */
+    public static function fromArray(array $data, $self = null)
+    {
+        return parent::fromArray($data, new static($data["res"]));
     }
 }

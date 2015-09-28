@@ -25,7 +25,7 @@ class MusicTrack extends AudioItem implements MusicTrackInterface
      */
     public function addArtist($artist)
     {
-        $this->elements['artist'][] = new UpnpElement("artist", $artist);
+        $this->elements['artist'][] = $artist;
         return $this;
     }
 
@@ -42,7 +42,7 @@ class MusicTrack extends AudioItem implements MusicTrackInterface
      */
     public function setAlbum($album)
     {
-        $this->album = new UpnpElement("album", $album);
+        $this->album = $album;
         return $this;
     }
 
@@ -59,7 +59,7 @@ class MusicTrack extends AudioItem implements MusicTrackInterface
      */
     public function setOriginalTrackNumber($originalTrackNumber)
     {
-        $this->originalTrackNumber = new UpnpElement("originalTrackNumber", $originalTrackNumber);
+        $this->originalTrackNumber = $originalTrackNumber;
         return $this;
     }
 
@@ -76,7 +76,7 @@ class MusicTrack extends AudioItem implements MusicTrackInterface
      */
     public function setPlaylist($playlist)
     {
-        $this->playlist = new UpnpElement("playlist", $playlist);
+        $this->playlist = $playlist;
         return $this;
     }
 
@@ -93,7 +93,7 @@ class MusicTrack extends AudioItem implements MusicTrackInterface
      */
     public function setStorageMedium($storageMedium)
     {
-        $this->storageMedium = new UpnpElement("storageMedium", $storageMedium);
+        $this->storageMedium = $storageMedium;
         return $this;
     }
 
@@ -110,7 +110,7 @@ class MusicTrack extends AudioItem implements MusicTrackInterface
      */
     public function setContributor($contributor)
     {
-        $this->contributor = new DcElement("contributor", $contributor);
+        $this->contributor = $contributor;
         return $this;
     }
 
@@ -127,7 +127,7 @@ class MusicTrack extends AudioItem implements MusicTrackInterface
      */
     public function setDate($date)
     {
-        $this->date = new DcElement("date", $date);
+        $this->date = $date;
         return $this;
     }
 

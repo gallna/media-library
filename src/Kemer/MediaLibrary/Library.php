@@ -110,4 +110,31 @@ class Library implements LibraryInterface
     {
         return $this->objects[$id];
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function filter($callbackOrKey, $value = null)
+    {
+        if (is_callable($callbackOrKey)) {
+            return array_filter($this->objects, $callbackOrKey);
+        }
+        return array_values(
+            array_filter($this->objects, function ($item) use ($callbackOrKey, $value) {
+                return $item->{$callbackOrKey} == $value;
+            })
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function search($id, $callbackOrKey, $value = null)
+    {
+        $object = $this->get($id);
+        if ($object instanceof ContainerInterface) {
+            return (new static())->set($object)->filter($callbackOrKey, $value);
+        }
+        return $object;
+    }
 }
