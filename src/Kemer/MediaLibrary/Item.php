@@ -19,6 +19,12 @@ class Item extends Object implements ItemInterface
         parent::__construct($id, $title, $upnpClass);
     }
 
+    public function setRes(array $res)
+    {
+        $this->elements["res"] = $res;
+        return $this;
+    }
+
     public function addRes($res)
     {
         $this->elements["res"][] = $res;
