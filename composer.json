@@ -2,8 +2,7 @@
     "name": "gallna/media-library",
     "require": {
         "php": ">=5.4",
-        "james-heinrich/getid3": "1.9.9",
-        "axelarge/array-tools": "*"
+        "james-heinrich/getid3": "1.9.9"
     },
     "authors": [
         {
