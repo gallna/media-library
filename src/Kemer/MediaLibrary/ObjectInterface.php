@@ -10,6 +10,12 @@ namespace Kemer\MediaLibrary;
  */
 interface ObjectInterface
 {
+    // protected $upnpClass;
+    // protected $id;
+    // protected $parentId = 0;
+    // protected $title;
+    // protected $restricted = false;
+
     /**
      * Method with required properties used to create the root class
      * of the entire content directory class hierarchy.

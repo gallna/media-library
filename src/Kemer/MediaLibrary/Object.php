@@ -1,31 +1,48 @@
 <?php
 namespace Kemer\MediaLibrary;
 
-use SimpleXmlElement;
-
-abstract class Object extends Element implements ObjectInterface
+abstract class Object implements ObjectInterface, \ArrayAccess
 {
-    // protected $upnpClass;
-    // protected $id;
-    // protected $parentId = 0;
-    // protected $title;
-    // protected $restricted = false;
+    use Traits\AttributesTrait;
+    use Traits\DataTrait;
+
+    /**
+     * @class upnp
+     */
+    public $class;
+
+    /**
+     * @class dc
+     */
+    public $title;
+
+    public $res = [];
 
     /**
      * Object constructor
      *
-     * @param string $id
-     * @param string $title
-     * @param string $upnpClass
+     * @param array $parameters
      */
-    public function __construct($id, $title, $upnpClass)
+    public function __construct(array $attributes = [])
     {
-        $this->setId($id);
-        $title and $this->setTitle($title);
-        $this->setClass($upnpClass);
+        $this->attributes = $attributes;
+    }
 
-        //parent::__construct(($this instanceof Container ? "container" : "item"));
-        //parent::__construct((new \ReflectionObject($this))->getShortName());
+    public function setRes(array $res)
+    {
+        $this->res = $res;
+        return $this;
+    }
+
+    public function addRes(Res $res)
+    {
+        $this->res[] = $res;
+        return $this;
+    }
+
+    public function getRes($res = null)
+    {
+        return $this->res;
     }
 
     /**
@@ -33,7 +50,7 @@ abstract class Object extends Element implements ObjectInterface
      */
     public function setId($id)
     {
-        $this->attributes["id"] = $id;
+        $this->offsetSet("id", $id);
         return $this;
     }
 
@@ -42,7 +59,7 @@ abstract class Object extends Element implements ObjectInterface
      */
     public function getId()
     {
-        return $this->attributes["id"];
+        return $this->offsetGet("id");
     }
 
     /**
@@ -50,7 +67,7 @@ abstract class Object extends Element implements ObjectInterface
      */
     public function setParentId($parentId)
     {
-        $this->attributes["parentId"] = $parentId;
+        $this->offsetSet("parentId", $parentId);
         return $this;
     }
 
@@ -59,12 +76,11 @@ abstract class Object extends Element implements ObjectInterface
      */
     public function getParentId()
     {
-        return isset($this->attributes["parentId"]) ? $this->attributes["parentId"] : null;
+        return $this->offsetGet("parentId") ?: 0;
     }
 
     /**
      * {@inheritDoc}
-     * Upnp
      */
     public function setClass($class)
     {
@@ -82,7 +98,6 @@ abstract class Object extends Element implements ObjectInterface
 
     /**
      * {@inheritDoc}
-     * Dc
      */
     public function setTitle($title)
     {
