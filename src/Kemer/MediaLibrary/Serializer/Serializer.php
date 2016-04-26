@@ -65,7 +65,7 @@ class Serializer
     public function deserialize($json, $class = null, $type = "json")
     {
         if (!$class) {
-            if (!($data = json_decode($json))) {
+            if (false === ($data = json_decode($json))) {
                 throw new \InvalidArgumentException(
                     sprintf("Invalid json to deserialize")
                 );
