@@ -1,7 +1,7 @@
 <?php
 namespace Kemer\MediaLibrary\Serializer;
 
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Serializer as SymfonySerializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -33,14 +33,14 @@ class Serializer
     {
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
-        $this->serializer = new Serializer($normalizers, $encoders);
+        $this->serializer = new SymfonySerializer($normalizers, $encoders);
     }
 
     public function getSerializer(array $normalizers = [])
     {
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers[] = new ObjectNormalizer();
-        $this->serializer = new Serializer($normalizers, $encoders);
+        $this->serializer = new SymfonySerializer($normalizers, $encoders);
     }
 
     /**
