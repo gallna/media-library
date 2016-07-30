@@ -1,5 +1,6 @@
 {
     "name": "gallna/media-library",
+    "description": "Media library based on UPnP spec",
     "require": {
         "php": ">=5.4",
         "james-heinrich/getid3": "1.9.9"
