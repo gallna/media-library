@@ -88,6 +88,9 @@ class Serializer
 
     public function deserializeObject($json, $class, $type = "json")
     {
+        if ($class == "Kemer\MediaLibrary\Res") {
+            return Res::fromArray(json_decode($json, true));
+        }
         $object = $this->serializer
             ->deserialize($json, $class, $type);
         if (isset($object->res)) {
