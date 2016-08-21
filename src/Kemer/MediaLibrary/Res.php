@@ -126,8 +126,10 @@ class Res implements \ArrayAccess
     public static function fromArray(array $data)
     {
         return (new static($data["res"]))
+            ->setImportUri(isset($data['importUri']) ? $data['importUri'] : null)
             ->setProtocolInfo(ProtocolInfo::fromArray($data['protocolInfo']))
             ->setSize(isset($data['size']) ? $data['size'] : null)
+            ->setBitrate(isset($data['bitrate']) ? $data['bitrate'] : null)
             ->setDuration(isset($data['duration']) ? $data['duration'] : null);
     }
 }
