@@ -101,12 +101,23 @@ class EpgItem extends BaseItem
     /**
      * @class upnp
      */
+    public $producer;
+
+    /**
+     * @class upnp
+     */
     public $publisher;
 
     /**
      * @class dc
      */
     public $relation;
+
+    /** @var upnp */
+    public $extendedGenre;
+
+    /** @var upnp */
+    public $icon;
 
 
     public function getStartTime()
@@ -152,3 +163,62 @@ class EpgItem extends BaseItem
     }
 
 }
+
+// upnp:genre
+// upnp:longDescription
+// upnp:producer
+// upnp:rating
+// upnp:actor
+// upnp:director
+// dc:description
+// dc:publisher
+// dc:language
+// dc:relation
+// upnp:storageMedium
+// upnp:DVDRegionCode
+// upnp:channelName
+// upnp:scheduledStartTime
+// upnp:scheduledEndTime
+
+// upnp:channelGroupName
+// upnp:channelGroupName@id
+// upnp:epgProviderName
+// upnp:serviceProvider
+// upnp:channelName
+// upnp:channelNr
+// upnp:programTitle
+// upnp:seriesTitle
+// upnp:programID
+// upnp:programID@type
+// upnp:seriesID
+// upnp:seriesID@type
+// upnp:channelID
+// upnp:channelID@type
+// upnp:channelID
+// @distriNetworkName
+// upnp:channelID
+// @distriNetworkID
+// upnp:episodeType
+// upnp:episodeCount
+// upnp:episodeNumber
+// upnp:episodeSeason
+// upnp:programCode
+// upnp:programCode@type
+// upnp:rating
+// upnp:rating@type
+// upnp:rating@advice
+// upnp:rating@equivalentAge
+// upnp:recommendationID
+// upnp:recommendationID@type
+// upnp:genre
+// upnp:genre@id
+// upnp:genre@extended
+// upnp:artist
+// upnp:artist@role
+// upnp:actor
+// upnp:actor@role
+// upnp:author
+// upnp:author@role
+// upnp:producer
+// upnp:director
+// dc:publisher
