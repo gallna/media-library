@@ -21,12 +21,14 @@ class Serializer
         "object.item.videoItem.videoBroadcast" => "Item\VideoItem\VideoBroadcast",
         "object.item.epgItem" => "Item\EpgItem",
         "object.item.epgItem.videoProgram" => "Item\EpgItem\VideoProgram",
+        "object.item.playlistItem" => "Item\PlaylistItem",
         "object.container.person" => "Container\Person",
         "object.container.genre" => "Container\Genre",
         "object.container.genre.movieGenre" => "Container\Genre\MovieGenre",
         "object.container.channelGroup" => "Container\ChannelGroup",
         "object.container.channelGroup.videoChannelGroup" => "Container\ChannelGroup\VideoChannelGroup",
         "object.container.epgContainer" => "Container\EpgContainer",
+        "object.container.playlistContainer" => "Container\Playlist",
     ];
 
     public function __construct()
