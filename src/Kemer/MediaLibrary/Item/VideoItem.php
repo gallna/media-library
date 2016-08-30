@@ -52,6 +52,14 @@ class VideoItem extends Item implements VideoItemInterface
      */
     public $longDescription;
 
+    /**
+     * Missing video date object
+     * (dc:date)
+     *
+     * @var string
+     */
+    public $date;
+
     public $actor = [];
     public $director;
     public $publisher;
