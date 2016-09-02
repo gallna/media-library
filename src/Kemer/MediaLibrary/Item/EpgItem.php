@@ -132,8 +132,8 @@ class EpgItem extends BaseItem
 
     public function getDuration()
     {
-        return $this->duration > 0
-            ? \DateInterval:: createFromDateString($this->duration." minutes")
+        return $this->getScheduledDuration() > 0
+            ? \DateInterval:: createFromDateString($this->getScheduledDuration()." minutes")
             : $this->getEndTime()->diff($this->getStartTime());
     }
 
