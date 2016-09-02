@@ -2,33 +2,32 @@
 namespace Kemer\MediaLibrary\Serializer;
 
 use Symfony\Component\Serializer\Serializer as SymfonySerializer;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
-
-use Kemer\MediaLibrary\Res;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Kemer\MediaLibrary\ProtocolInfo;
+use Kemer\MediaLibrary\Res;
 
 class Serializer
 {
     private $serializer;
 
     private $classMap = [
-        "object.item" => "Item",
-        "object.item.videoItem" => "Item\VideoItem",
-        "object.item.videoItem.movie" => "Item\VideoItem\Movie",
-        "object.item.videoItem.videoBroadcast" => "Item\VideoItem\VideoBroadcast",
-        "object.item.epgItem" => "Item\EpgItem",
-        "object.item.epgItem.videoProgram" => "Item\EpgItem\VideoProgram",
-        "object.item.playlistItem" => "Item\PlaylistItem",
-        "object.container.person" => "Container\Person",
-        "object.container.genre" => "Container\Genre",
-        "object.container.genre.movieGenre" => "Container\Genre\MovieGenre",
-        "object.container.channelGroup" => "Container\ChannelGroup",
-        "object.container.channelGroup.videoChannelGroup" => "Container\ChannelGroup\VideoChannelGroup",
-        "object.container.epgContainer" => "Container\EpgContainer",
-        "object.container.playlistContainer" => "Container\Playlist",
+        "object.item" => "Kemer\MediaLibrary\Item",
+        "object.item.videoItem" => "Kemer\MediaLibrary\Item\VideoItem",
+        "object.item.videoItem.movie" => "Kemer\MediaLibrary\Item\VideoItem\Movie",
+        "object.item.videoItem.videoBroadcast" => "Kemer\MediaLibrary\Item\VideoItem\VideoBroadcast",
+        "object.item.epgItem" => "Kemer\MediaLibrary\Item\EpgItem",
+        "object.item.epgItem.videoProgram" => "Kemer\MediaLibrary\Item\EpgItem\VideoProgram",
+        "object.item.playlistItem" => "Kemer\MediaLibrary\Item\PlaylistItem",
+        "object.container.person" => "Kemer\MediaLibrary\Container\Person",
+        "object.container.genre" => "Kemer\MediaLibrary\Container\Genre",
+        "object.container.genre.movieGenre" => "Kemer\MediaLibrary\Container\Genre\MovieGenre",
+        "object.container.channelGroup" => "Kemer\MediaLibrary\Container\ChannelGroup",
+        "object.container.channelGroup.videoChannelGroup" => "Kemer\MediaLibrary\Container\ChannelGroup\VideoChannelGroup",
+        "object.container.epgContainer" => "Kemer\MediaLibrary\Container\EpgContainer",
+        "object.container.playlistContainer" => "Kemer\MediaLibrary\Container\Playlist",
     ];
 
     public function __construct()
@@ -95,6 +94,7 @@ class Serializer
         }
         $object = $this->serializer
             ->deserialize($json, $class, $type);
+        $object->class = array_flip($this->classMap)[$class];
         if (isset($object->res)) {
             $object->res = $this->createRes($object->res);
         }
@@ -131,6 +131,6 @@ class Serializer
                 sprintf("Couldn't find class name for upnp class %s", $data->class)
             );
         }
-        return "Kemer\\MediaLibrary\\".$this->classMap[$data->class];
+        return $this->classMap[$data->class];
     }
 }
