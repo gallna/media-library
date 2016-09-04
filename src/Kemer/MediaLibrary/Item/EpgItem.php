@@ -149,6 +149,18 @@ class EpgItem extends BaseItem
         return (($now > $this->getStartTime()) && ($now < $this->getEndTime()));
     }
 
+    public function getElapsedTime(\DateTime $now = null)
+    {
+        $now = $now ?: new \DateTime();
+        if ($this->isPlaying($now)) {
+            $duration = $this->getDuration();
+            $elapsed = $this->getStartTime()->diff($now);
+            return $elapsedMin = $elapsed->h * 60 + $elapsed->i;
+            return round($elapsedMin / $durationMin * 100);
+        }
+        return 0;
+    }
+
     public function getProgress(\DateTime $now = null)
     {
         $now = $now ?: new \DateTime();
