@@ -4,6 +4,7 @@ namespace Kemer\MediaLibrary\Serializer;
 use Symfony\Component\Serializer\Serializer as SymfonySerializer;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer as SymfonyNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Kemer\MediaLibrary\ProtocolInfo;
@@ -32,16 +33,21 @@ class Serializer
 
     public function __construct()
     {
+        $normalizers[] = new SymfonyNormalizer\DateTimeNormalizer();
+        $normalizers[] = new Normalizer\DateIntervalNormalizer(Normalizer\DateIntervalNormalizer::MINUTES);
+        $normalizers[] = $objectNormalizer = new SymfonyNormalizer\ObjectNormalizer();
+        // $objectNormalizer->setIgnoredAttributes(['startTime', 'endTime']);
+
         $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
         $this->serializer = new SymfonySerializer($normalizers, $encoders);
     }
 
     public function getSerializer(array $normalizers = [])
     {
+        return $this->serializer;
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers[] = new ObjectNormalizer();
-        $this->serializer = new SymfonySerializer($normalizers, $encoders);
+        return $this->serializer = new SymfonySerializer($normalizers, $encoders);
     }
 
     /**
