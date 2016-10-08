@@ -14,41 +14,33 @@ class VideoItem extends Item implements VideoItemInterface
     /** @class upnp */
     public $class = "object.item.videoItem";
 
-    // upnp:producer
-    // upnp:rating
-    // upnp:director
-    // dc:publisher
-    // dc:relation
-
     /**
-     * A language
-     * (dc:language)
-     *
-     * @var string
-     */
-    public $language;
-
-    /**
-     * A genre
-     * (upnp:genre)
-     *
-     * @var string
+     * @class upnp
      */
     public $genre;
 
     /**
-     * A genre description
-     * (dc:description)
+     * The upnp:genre@extended property shall be a CSV list of genre names, which
+     * are individually displayable strings, representing increasingly precise
+     * (sub)genre names.  The list shall be ordered with the most general genre first.
+     * The first entry in the list shall be equal to the value of the upnp:genre property.
      *
-     * @var string
+     * @class upnp
+     */
+    public $extendedGenre;
+
+    /**
+     * @class dc
+     */
+    public $language;
+
+    /**
+     * @class dc
      */
     public $description;
 
     /**
-     * A genre long description
-     * (upnp:longDescription)
-     *
-     * @var string
+     * @class upnp
      */
     public $longDescription;
 
@@ -60,8 +52,33 @@ class VideoItem extends Item implements VideoItemInterface
      */
     public $date;
 
+    /**
+     * @class upnp
+     */
+    public $rating;
+
+    /**
+     * @class upnp
+     */
     public $actor = [];
-    public $director;
-    public $publisher;
+
+    /**
+     * @class upnp
+     */
+    public $director = [];
+
+    /**
+     * @class upnp
+     */
+    public $producer = [];
+
+    /**
+     * @class dc
+     */
+    public $publisher = [];
+
+    /**
+     * @class dc
+     */
     public $relation;
 }

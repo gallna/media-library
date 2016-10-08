@@ -13,6 +13,9 @@ class EpgItem extends BaseItem
      */
     public $channelName;
 
+    /**
+     * @class dc
+     */
     public $duration;
 
     /**
@@ -55,38 +58,40 @@ class EpgItem extends BaseItem
      */
     public $episodeSeason;
 
-
     /**
-     * A language
-     * (dc:language)
-     *
-     * @var string
-     */
-    public $language;
-
-    /**
-     * A genre
-     * (upnp:genre)
-     *
-     * @var string
+     * @class upnp
      */
     public $genre;
 
     /**
-     * A genre description
-     * (dc:description)
+     * The upnp:genre@extended property shall be a CSV list of genre names, which
+     * are individually displayable strings, representing increasingly precise
+     * (sub)genre names.  The list shall be ordered with the most general genre first.
+     * The first entry in the list shall be equal to the value of the upnp:genre property.
      *
-     * @var string
+     * @class upnp
+     */
+    public $extendedGenre;
+
+    /**
+     * @class dc
+     */
+    public $language;
+
+    /**
+     * @class dc
      */
     public $description;
 
     /**
-     * A genre long description
-     * (upnp:longDescription)
-     *
-     * @var string
+     * @class upnp
      */
     public $longDescription;
+
+    /**
+     * @class upnp
+     */
+    public $rating;
 
     /**
      * @class upnp
@@ -96,27 +101,26 @@ class EpgItem extends BaseItem
     /**
      * @class upnp
      */
-    public $director;
+    public $director = [];
 
     /**
      * @class upnp
      */
-    public $producer;
+    public $producer = [];
 
     /**
-     * @class upnp
+     * @class dc
      */
-    public $publisher;
+    public $publisher = [];
 
     /**
      * @class dc
      */
     public $relation;
 
-    /** @var upnp */
-    public $extendedGenre;
-
-    /** @var upnp */
+    /**
+     * @class upnp
+     */
     public $icon;
 
 
