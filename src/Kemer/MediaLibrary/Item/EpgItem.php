@@ -74,9 +74,17 @@ class EpgItem extends BaseItem
     public $extendedGenre;
 
     /**
+     * RFC 3066 i.e. en-US
      * @class dc
      */
     public $language;
+
+    /**
+     * Property contains some identification of the region, associated with
+     * the source of the object, for example, “US”, “Latin America”, “Seattle”.
+     * @class upnp
+     */
+    public $region;
 
     /**
      * @class dc
