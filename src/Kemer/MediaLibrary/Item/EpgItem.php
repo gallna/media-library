@@ -134,12 +134,16 @@ class EpgItem extends BaseItem
 
     public function getStartTime()
     {
-        return new \DateTime($this->scheduledStartTime);
+        $date = new \DateTime($this->scheduledStartTime);
+        $date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+        return $date;
     }
 
     public function getEndTime()
     {
-        return new \DateTime($this->scheduledEndTime);
+        $date = new \DateTime($this->scheduledEndTime);
+        $date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+        return $date;
     }
 
     public function getDuration()
