@@ -31,23 +31,37 @@ class Serializer
         "object.container.playlistContainer" => "Kemer\MediaLibrary\Container\Playlist",
     ];
 
-    public function __construct()
+    public function __construct(SymfonySerializer $serializer = null)
     {
-        $normalizers[] = new SymfonyNormalizer\DateTimeNormalizer();
-        $normalizers[] = new Normalizer\DateIntervalNormalizer(Normalizer\DateIntervalNormalizer::MINUTES);
-        $normalizers[] = $objectNormalizer = new SymfonyNormalizer\ObjectNormalizer();
-        // $objectNormalizer->setIgnoredAttributes(['startTime', 'endTime']);
-
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $this->serializer = new SymfonySerializer($normalizers, $encoders);
+        $this->serializer = $serializer ?: $this->serializer();
     }
 
-    public function getSerializer(array $normalizers = [])
+    private function serializer()
+    {
+        $normalizers[] = new SymfonyNormalizer\DateTimeNormalizer();
+        $normalizers[] = new Normalizer\DatePeriodNormalizer();
+        $normalizers[] = new Normalizer\DateIntervalNormalizer(
+            Normalizer\DateIntervalNormalizer::MINUTES
+        );
+        $normalizers[] = new SymfonyNormalizer\ObjectNormalizer();
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        return new SymfonySerializer($normalizers, $encoders);
+    }
+
+    public function getSerializer()
     {
         return $this->serializer;
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers[] = new ObjectNormalizer();
-        return $this->serializer = new SymfonySerializer($normalizers, $encoders);
+    }
+
+    /**
+     * Normalize an Object
+     *
+     * @param ObjectInterface $object
+     * @return array
+     */
+    public function normalize($object)
+    {
+        return $this->serializer->normalize($object);
     }
 
     /**
@@ -59,6 +73,22 @@ class Serializer
     public function serialize($object, $type = "json")
     {
         return $this->serializer->serialize($object, $type);
+    }
+
+    /**
+     * Denormalizes data back into an object of the given class.
+     *
+     * @param ObjectInterface $object
+     * @return array
+     */
+    public function denormalize($data)
+    {
+        if (is_array($data) && !isset($data["class"])) {
+            return array_map(function($item) {
+                return $this->serializer->denormalize($item, $this->getClass($item));
+            }, $data);
+        }
+        return $this->serializer->denormalize($data, $this->getClass($data));
     }
 
     /**
@@ -125,18 +155,20 @@ class Serializer
                 );
             }
         }
-        if (!isset($data->class)) {
+        // $class = isset($data["class"]) ? $data["class"] : null;
+        if (!isset($data->class) && !isset($data["class"])) {
             throw new \RuntimeException(
                 sprintf("Couldn't get upnp class name from '%s'",
                     is_object($data) ? get_class($data) : gettype($data)
                 )
             );
         }
-        if (!isset($this->classMap[$data->class])) {
+        $class = isset($data->class) ? $data->class : $data["class"];
+        if (!isset($this->classMap[$class])) {
             throw new \RuntimeException(
-                sprintf("Couldn't find class name for upnp class %s", $data->class)
+                sprintf("Couldn't find class name for upnp class %s", $class)
             );
         }
-        return $this->classMap[$data->class];
+        return $this->classMap[$class];
     }
 }

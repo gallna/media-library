@@ -24,13 +24,13 @@ class EpgContainer extends Container
     public $channelNr;
 
     /** @var upnp */
-    public $channelID;
+    public $channelId;
 
     /** @var upnp */
     public $radioCallSign;
 
     /** @var upnp */
-    public $radioStationID;
+    public $radioStationId;
 
     /** @var upnp */
     public $radioBand;
@@ -62,4 +62,23 @@ class EpgContainer extends Container
     /** @var upnp */
     public $dateTimeRange;
 
+    public function timeRange(\DateTimeInterface $start, \DateTimeInterface $end)
+    {
+        $this->dateTimeRange = new \DatePeriod($start, $end->diff($start), $end);
+        return $this;
+    }
+
+    public function getDateTimeRange()
+    {
+        if (!$this->dateTimeRange || $this->dateTimeRange->getEndDate()) {
+            return $this->dateTimeRange;
+        }
+        $dates = iterator_to_array($this->dateTimeRange);
+        $datePeriod = new \DatePeriod(
+            $this->dateTimeRange->getStartDate(),
+            $this->dateTimeRange->getDateInterval(),
+            end($dates)
+        );
+        return $datePeriod;
+    }
 }

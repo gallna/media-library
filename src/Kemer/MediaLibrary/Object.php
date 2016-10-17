@@ -1,7 +1,7 @@
 <?php
 namespace Kemer\MediaLibrary;
 
-abstract class Object implements ObjectInterface, \ArrayAccess
+abstract class Object implements ObjectInterface, \ArrayAccess, \JsonSerializable
 {
     use Traits\AttributesTrait;
     use Traits\DataTrait;
@@ -128,5 +128,13 @@ abstract class Object implements ObjectInterface, \ArrayAccess
     public function getRestricted()
     {
         $this->offsetGet("restricted");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function jsonSerialize()
+    {
+        return (new Serializer\Serializer())->normalize($this);
     }
 }

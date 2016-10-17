@@ -11,6 +11,16 @@ class EpgItem extends BaseItem
     /**
      * @class upnp
      */
+    public $channelNr;
+
+    /**
+     * @class upnp
+     */
+    public $channelId;
+
+    /**
+     * @class upnp
+     */
     public $channelName;
 
     /**
@@ -36,7 +46,17 @@ class EpgItem extends BaseItem
     /**
      * @class upnp
      */
+    public $programId;
+
+    /**
+     * @class upnp
+     */
     public $programTitle;
+
+    /**
+     * @class upnp
+     */
+    public $seriesId;
 
     /**
      * @class upnp
